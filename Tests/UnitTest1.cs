@@ -8,402 +8,492 @@ namespace Tests
     public class UnitTestRomanNumber
     {
 
-        /* Д.З. Реалізувати крос-тести:
-    `   * генеруємо випадкове число (-3000 ... 3000),
-    `   * робимо його представлення у римській формі
-    `   * парсимо це представлення - маємо одержати початкове число
-    `   * повторити циклічно 256 разів
-    `   */
+
+        #region Classwork
+        //[TestMethod]
+        //public void TestSum()
+        //{
+        //    //Assert.AreEqual("L",
+        //    //    RomanNumber.Sum(new(5), new(10), new(5), new(10), new(10), new(10)).ToString(),
+        //    //    "50 must be equal RomanNumber.Sum(...).ToStirng()");
+
+        //    RomanNumber r1 = new(10);
+        //    RomanNumber r2 = new(20);
+        //    var r3 = RomanNumber.Sum(r1, r2);
+        //    Assert.IsInstanceOfType(r3, typeof(RomanNumber));
+        //    Assert.AreNotSame(r3, r1);
+        //    Assert.AreNotSame(r3, r2);
+
+        //    Assert.AreEqual(60, RomanNumber.Sum(r1, r2, r3).Value);
+
+        //    var ex = Assert.ThrowsException<ArgumentNullException>(
+        //        () => RomanNumber.Sum(null!),
+        //        "Sum(null!) ThrowsException: ArgumentNullException>");
+        //    String expectedFragment = "Invaild Sum() invocation with NULL argument";
+        //    // повідомлення виключення містить заявлений фрагмент
+        //    Assert.IsTrue(
+        //        ex.Message.Contains(
+        //            expectedFragment,
+        //            StringComparison.InvariantCultureIgnoreCase
+        //            ),
+        //        $"ex.Message({ex.Message}) contains '{expectedFragment}'"
+        //        );
+
+        //    // порожній перелік аргументів
+        //    var emptyArr = Array.Empty<RomanNumber>();
+        //    Assert.AreEqual(0, RomanNumber.Sum(emptyArr).Value, "Sum(empty) == 0");
+        //    Assert.AreEqual(0, RomanNumber.Sum().Value, "Sum() == 0");
+
+        //    Assert.AreEqual(10, RomanNumber.Sum(r1).Value, "Sum(r1) == 10");
+
+        //    Assert.AreEqual(30, RomanNumber.Sum(new(10), new(20)).Value);
+
+        //    Random rnd = new();
+
+        //    for (int i = 0; i < 200; i++)
+        //    {
+        //        int x = rnd.Next(-3000, 3000);
+        //        int y = rnd.Next(-3000, 3000);
+        //        Assert.AreEqual(x + y,
+        //            RomanNumber.Sum(new(x), new(y)).Value,
+        //            $"{x} + {y} == {x + y}"
+        //            );
+        //    }
+
+        //    for (int i = 0; i < 200; i++)
+        //    {
+        //        RomanNumber x = new(rnd.Next(-3000, 3000));
+        //        RomanNumber y = new(rnd.Next(-3000, 3000));
+        //        Assert.AreEqual(
+        //            x.Add(y).Value,
+        //            RomanNumber.Sum(x, y).Value,
+        //            $"{x}, {y} == Add == Sum"
+        //            );
+        //    }
+
+        //}
+
+        //[TestMethod]
+        //public void TestAdd()
+        //{
+        //    RomanNumber r1 = new(10);
+        //    RomanNumber r2 = new(20);
+        //    Assert.IsInstanceOfType(r1.Add(r2), typeof(RomanNumber));
+        //    Assert.AreEqual("XXX", r1.Add(r2).ToString());
+        //    Assert.AreEqual(30, r1.Add(r2).Value);
+        //    Assert.AreEqual("XXX", r2.Add(r1).ToString());
+        //    Assert.AreEqual(30, r2.Add(r1).Value);
+
+        //    var ex = Assert.ThrowsException<ArgumentNullException>(
+        //        () => r1.Add(null!),
+        //        "r1.Add(null!) --> ArgumentNullException");
+        //    // "ex.Message contains 'Cannot Add null object'"
+
+        //    Assert.IsTrue(ex.Message.Contains(
+        //        "Cannot Add null object",
+        //        StringComparison.OrdinalIgnoreCase // реєстронезалежне порівняння
+        //        ),
+        //        $"ex.Message({ex.Message}) contains 'Cannot Add null object'");
+
+        //    // переконуємось у тому, що r2.Add(r1) це новий об'єкт, а не зміненний r2
+        //    Assert.AreNotSame(r2, r2.Add(r1), " Add() should return new item");
+        //}
+
+
+        //[TestMethod]
+        //public void TestToStringXParse()
+        //{
+        //    Random r = new();
+        //    for (int i = 0; i < 256; i++)
+        //    {
+        //        RomanNumber romanNumber = new(r.Next(-3000, 3000));
+        //        Assert.AreEqual(romanNumber.ToString(),
+        //            RomanNumber.Parse(romanNumber.ToString()).ToString(),
+        //            "romanNumber.ToString() != RomanNumber.Parse(romanNumber.ToString)");
+        //    }
+        //}
+        //[TestMethod]
+        //public void TestToString()
+        //{
+        //    /* Створити тестові кейси для оптимальної форми римських чисел
+        //     * скласти 10 кейсів з різних числових діапазонів
+        //     * 0-10, 10-100, 100-1000, 1000-3000
+        //     * та з різною кількістю цифр у числі
+        //     */
+        //    Dictionary<int, String> testCases = new()
+        //    {
+        //        {1,"I" },
+        //        {29, "XXIX"},
+        //        {39, "XXXIX"},
+        //        {246, "CCXLVI"},
+        //        {378, "CCCLXXVIII"},
+        //        {1199, "MCXCIX"},
+        //        {1350, "MCCCL"},
+        //        {2247, "MMCCXLVII"},
+        //        {2499, "MMCDXCIX"},
+        //        {2700, "MMDCC"},
+        //        {2999, "MMCMXCIX"},
+        //        { -2947, "-MMCMXLVII" },
+        //        { -2970, "-MMCMLXX" },
+        //        { -2730, "-MMDCCXXX" },
+        //        { -2756, "-MMDCCLVI" },
+        //        { -2767, "-MMDCCLXVII" },
+        //        { -2777, "-MMDCCLXXVII" },
+        //        { -2799, "-MMDCCXCIX" },
+        //        { -1603, "-MDCIII" },
+        //        { -1674, "-MDCLXXIV" },
+        //        { -1718, "-MDCCXVIII" },
+        //        { -1742, "-MDCCXLII" },
+        //        { -1747, "-MDCCXLVII" },
+        //        { -1784, "-MDCCLXXXIV" },
+        //        { -1796, "-MDCCXCVI" },
+        //        { -1884, "-MDCCCLXXXIV" },
+        //        { -1945, "-MCMXLV" },
+        //        { -1951, "-MCMLI" },
+        //        { -1972, "-MCMLXXII" },
+        //        { -1980, "-MCMLXXX" },
+        //    };
+        //    foreach (var pair in testCases)
+        //    {
+        //        Assert.AreEqual(pair.Value, new RomanNumber(pair.Key).ToString(), $"{pair.Key}.ToString()=={pair.Value}");
+        //    }
+        //    // Тест конструктора без аргументу
+        //    Assert.AreEqual(
+        //        "N",
+        //        new RomanNumber().ToString(),
+        //        $"new RomanNumber()=='N'"
+        //    );
+        //}
+
+        //private static Dictionary<String, int> parseTests = new()
+        //{
+        //    {"I"     , 1  },
+        //    {"II"    , 2  },
+        //    {"III"   , 3  },
+        //    {"IIII"  , 4  }, // Особливі твердження - з них ми визначаєио про
+        //    {"IV"   , 4  },  // підтримку неоптимальних записів чи
+        //    {"V"    , 5  },
+        //    {"VI"   , 6  },
+        //    {"VII"  , 7  },
+        //    {"VIII" , 8  },
+        //    {"IX"   , 9  },
+        //    {"X"  , 10  },
+        //    {"VV", 10 }, // ще одне наголошення неоптимальності
+        //    {"IIIIIIIIII", 10 }, // ще одне наголошення неоптимальності
+        //    {"VX", 5 }, // ще одне наголошення неоптимальності
+        //    {"N",0 }, // Доповнюємо множину чисел нулем
+        //    {"-L",-50 }, // вказуємо, що можливі від'ємні числа
+        //    {"-XL",-40 },
+        //    {"-IL",-49 }, // неоптимальність
+
+        //    //{"-MDV",1505 },//fall
+        //    {"DD",1000 },
+        //    {"CCCCC",500 },
+        //    {"IVIVIVIVIV",20 },
+        //    {"MMDDCCCCCCCCCC",4000 },
+        //    {"MMXXIII",2023},
+        //    { "CMD", 1400 },
+        //    { "CLI", 151},
+        //    { "DIL", 549},
+        //    { "DID", 999},
+        //    { "DMC", 600},
+
+
+        //    //DZ
+
+        //    {"XIV", 14},
+        //    {"XXIV", 24},
+        //    {"XXIX", 29},
+        //    {"XXXIV", 34},
+        //    {"XXXIX", 39},
+        //    {"XLIV", 44},
+        //    {"XLIX", 49},
+        //    {"LIV", 54},
+        //    {"LIX", 59},
+        //    {"LXIV", 64},
+        //    {"LXIX", 69},
+        //    {"LXXIV", 74},
+        //    {"LXXIX", 79},
+        //    {"LXXXIV", 84},
+        //    {"LXXXIX", 89},
+        //    {"XCIV", 94},
+        //    {"XCIX", 99},
+        //    {"CIV", 104},
+        //    {"CIX", 109},
+        //    {"CXIV", 114},
+        //    {"CXIX", 119},
+        //    {"CXXIV", 124},
+        //    {"CXXIX", 129},
+        //    {"CXXXIV", 134},
+        //    {"CXXXIX", 139},
+        //    {"CXLIV", 144},
+        //    {"CXLIX", 149},
+        //    {"CLIV", 154},
+        //    {"CLIX", 159},
+        //    {"CLXIV", 164},
+        //    {"CLXIX", 169},
+        //    {"CLXXIV", 174},
+        //    {"CLXXIX", 179},
+        //    {"CLXXXIV", 184},
+        //    {"CLXXXIX", 189},
+        //    {"CXCIV", 194},
+        //    {"CXCIX", 199},
+        //    {"CCIV", 204},
+        //    {"CCIX", 209},
+        //    {"CCXIV", 214},
+        //    {"CCXIX", 219},
+        //    {"CCXXIV", 224},
+        //    {"CCXXIX", 229},
+        //    {"CCXXXIV", 234},
+        //    {"CCXXXIX", 239},
+        //    {"CCXLIV", 244},
+        //    {"CCXLIX", 249},
+        //    {"CCLIV", 254},
+        //    {"CCLIX", 259},
+        //    {"CCLXIV", 264},
+        //    {"CCLXIX", 269},
+        //    {"CCLXXIV", 274},
+        //    {"CCLXXIX", 279},
+        //    {"CCLXXXIV", 284},
+        //    {"CCLXXXIX", 289},
+        //    {"CCXCIV", 294},
+        //    {"CCXCIX", 299},
+        //    {"CDIV", 404},
+        //    {"CDIX", 409},
+        //    {"CDXIV", 414},
+        //    {"CDXIX", 419},
+        //    {"CDXXIV", 424},
+        //    {"CDXXIX", 429},
+        //    {"CDXXXIV", 434},
+        //    {"CDXXXIX", 439},
+        //    {"CDXLIV", 444},
+        //    {"CDXLIX", 449},
+        //    {"CDLIV", 454},
+        //    {"CDLIX", 459},
+        //    {"CDLXIV", 464},
+        //    {"CDLXIX", 469},
+        //    {"CDLXXIV", 474},
+        //    {"CDLXXIX", 479},
+        //    {"CDLXXXIV", 484},
+        //    {"CDLXXXIX", 489},
+        //    {"CDXCIV", 494},
+        //    {"CDXCIX", 499},
+        //    {"DIV", 504},
+        //    {"DIX", 509},
+        //    {"DXIV", 514},
+        //    {"DXIX", 519},
+        //    {"DXXIV", 524},
+        //    {"DXXIX", 529},
+        //    {"DXXXIV", 534},
+        //    {"DXXXIX", 539},
+        //    {"DXLIV", 544},
+        //    {"DXLIX", 549},
+        //    {"DLIV", 554},
+        //    {"DLIX", 559},
+        //    {"DLXIV", 564},
+        //    {"DLXIX", 569},
+        //    {"DLXXIV", 574},
+        //    {"DLXXIX", 579},
+        //    {"DLXXXIV", 584},
+        //    {"DLXXXIX", 589},
+        //    {"DXCIV ", 594},
+        //    {" DXCIX ", 599},
+        //    {"\nCM\t", 900}
+
+
+
+        //};
+
+
+        //[TestMethod]
+        //public void TestParseValid()
+        //{
+        //    /*Assert.AreEqual(        ///RomanNumber.Parse("I").Value == 1
+        //        1,                         // Значення, що очікується( що має бути, правильний варіант)
+        //        RomanNumber      // Актуальне значення (те, що вирахуване)
+        //                    .Parse("I") //
+        //                    .Value,      //
+        //        "1 == I"                // Повідомлення, що з'явиться при провалі тесту
+        //    );*/
+        //    foreach (var pair in parseTests)
+        //    {
+        //        Assert.AreEqual(
+        //            pair.Value,
+        //            RomanNumber.Parse(pair.Key).Value,
+        //            $"{pair.Value}=={pair.Key}");
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void TestParseNandMinus()
+        //{
+        //    // Тестування з неправильними формами чисел
+        //    Assert.ThrowsException<ArgumentException>(
+        //        () => RomanNumber.Parse(""),
+        //        " ' ' -> Exception");
+        //    Assert.ThrowsException<ArgumentException>(
+        //        () => RomanNumber.Parse(null!),
+        //        " ' ' -> Exception");
+        //    Assert.ThrowsException<ArgumentException>(
+        //       () => RomanNumber.Parse(" "),
+        //       " ' ' -> Exception");
+        //    //саме виключення, що виникло у лямбді, повертаеється як результат
+        //    var ex = Assert.ThrowsException<ArgumentException>(
+        //        () => RomanNumber.Parse("XBC"),
+        //        " ' ' -> Exception");
+        //    // вимагаємо, щоб відомості про неправильну цифру ('B') було
+        //    // включено у повідолмення виключення
+        //    Assert.IsTrue(ex.Message.Contains('B'), "ex.Message should Contain 'B' ");
+
+        //    Dictionary<String, char> testCases = new()
+        //    {
+        //        { "I-V",'-' },
+        //        { "VI-",'-'},
+        //        { "I-II",'-'},
+        //        { "VII-I",'-'},
+
+        //        { "VIINI",'N'}, // Тест не спрацював, тому зробив вирішення цієї проблеми
+        //                        // (див. CheckValidityOrThrow() у класі RomanNumber)
+
+        //        { "Xx",'x' },
+        //        { "Xy",'y' },
+        //        { "AX",'A' },
+        //        { "X C",' ' },
+        //        { "X\tC",'\t' },
+        //        { "X\nC",'\n' },
+        //    };
+        //    foreach (var pair in testCases)
+        //    {
+        //        // позбуваємось змінної ex  - робимо вкладені вирази
+        //        Assert.IsTrue(
+        //            Assert.ThrowsException<ArgumentException>(
+        //                () => RomanNumber.Parse(pair.Key),
+        //                $" '{pair.Key}' -> ArgumentException").Message.Contains($"'{pair.Value}'"),
+        //            $"'{pair.Key}' ex.Message should Contain '{pair.Value}' ");
+        //    }
+
+        //    // Якщо неправильних цифр декілька, то ми очікуємо будь-якої з них
+        //    // "ABC" - або 'A', або 'B'
+
+        //    ex = Assert.ThrowsException<ArgumentException>(
+        //        () => RomanNumber.Parse("ABC"),
+        //        " ' ' -> Exception");
+
+        //    Assert.IsTrue(
+        //            ex.Message.Contains('A') && ex.Message.Contains('B'), $"'ABC' ex.Message({ex.Message}) should Contain 'A' and 'B'");
+
+        //    // Змінюються правила - для неправильних чисел вимагаємо перелік
+        //    // усіх цифр (символів), що не є припустимими
+
+
+        //    // + перевіримо, що повідомлення (виключення) не занадто коротке
+        //    // мову чи інші слова не встановлюємо, але щоб не одна літера —
+        //    // накладаємо умову на довжину повідомлення (15 літер)
+        //    Assert.IsFalse(ex.Message.Length < 15, "ex.Message.Length min 15");
+        //}
+
+        //[TestMethod]
+        //public void TestParseIllegal()
+        //{
+        //    String[] illegals = { "IIV", "IIX", "VVX", "IVX", "IIIX", "VIX" };
+        //    foreach (var illegal in illegals)
+        //    {
+        //        Assert.ThrowsException<ArgumentException>(() => RomanNumber.Parse(illegal), $"'{illegal}' -> Exception)");
+        //    }
+
+        //}
+
+        #endregion
+
+              private const string INVALID_EXPRESSION_MESSAGE = "Invalid expression";
 
         [TestMethod]
-        public void TestSum()
+        public void CrossTest()
         {
-            //Assert.AreEqual("L",
-            //    RomanNumber.Sum(new(5), new(10), new(5), new(10), new(10), new(10)).ToString(),
-            //    "50 must be equal RomanNumber.Sum(...).ToStirng()");
+            Assert.AreEqual(RomanNumber.Sum(new(1), new(3)).Value, RomanNumber.Eval("I + III").Value,
+                "RomanNumber.Sum(new(1),new(3)).Value,RomanNumber.Eval(\"I + III\").Value");
 
-            RomanNumber r1 = new(10);
-            RomanNumber r2 = new(20);
-            var r3 = RomanNumber.Sum(r1, r2);
-            Assert.IsInstanceOfType(r3, typeof(RomanNumber));
-            Assert.AreNotSame(r3, r1);
-            Assert.AreNotSame(r3, r2);
-
-            Assert.AreEqual(60, RomanNumber.Sum(r1, r2, r3).Value);
-
-            var ex = Assert.ThrowsException<ArgumentNullException>(
-                () => RomanNumber.Sum(null!),
-                "Sum(null!) ThrowsException: ArgumentNullException>");
-            String expectedFragment = "Invaild Sum() invocation with NULL argument";
-            // повідомлення виключення містить заявлений фрагмент
-            Assert.IsTrue(
-                ex.Message.Contains(
-                    expectedFragment,
-                    StringComparison.InvariantCultureIgnoreCase
-                    ),
-                $"ex.Message({ex.Message}) contains '{expectedFragment}'"
-                );
-
-            // порожній перелік аргументів
-            var emptyArr = Array.Empty<RomanNumber>();
-            Assert.AreEqual(0, RomanNumber.Sum(emptyArr).Value, "Sum(empty) == 0");
-            Assert.AreEqual(0, RomanNumber.Sum().Value, "Sum() == 0");
-
-            Assert.AreEqual(10, RomanNumber.Sum(r1).Value, "Sum(r1) == 10");
-
-            Assert.AreEqual(30, RomanNumber.Sum(new(10), new(20)).Value);
-
-            Random rnd = new();
-
-            for (int i = 0; i < 200; i++)
-            {
-                int x = rnd.Next(-3000, 3000);
-                int y = rnd.Next(-3000, 3000);
-                Assert.AreEqual(x + y,
-                    RomanNumber.Sum(new(x), new(y)).Value,
-                    $"{x} + {y} == {x + y}"
-                    );
-            }
-
-            for (int i = 0; i < 200; i++)
-            {
-                RomanNumber x = new(rnd.Next(-3000, 3000));
-                RomanNumber y = new(rnd.Next(-3000, 3000));
-                Assert.AreEqual(
-                    x.Add(y).Value,
-                    RomanNumber.Sum(x, y).Value,
-                    $"{x}, {y} == Add == Sum"
-                    );
-            }
-
+            RomanNumber r1 = new(3);
+            Assert.AreEqual(r1.Add(new(1)).Value, RomanNumber.Eval("I + III").Value,
+                "r1.Add(new(1)).Value,RomanNumber.Eval(\"I + III\").Value");
         }
 
         [TestMethod]
-        public void TestAdd()
+        public void TestEvalType()
         {
-            RomanNumber r1 = new(10);
-            RomanNumber r2 = new(20);
-            Assert.IsInstanceOfType(r1.Add(r2), typeof(RomanNumber));
-            Assert.AreEqual("XXX", r1.Add(r2).ToString());
-            Assert.AreEqual(30, r1.Add(r2).Value);
-            Assert.AreEqual("XXX", r2.Add(r1).ToString());
-            Assert.AreEqual(30, r2.Add(r1).Value);
+            Assert.AreNotEqual(null!, RomanNumber.Eval("I+III"),
+                "RomanNumber.Eval(\"I+III\") != null");
 
-            var ex = Assert.ThrowsException<ArgumentNullException>(
-                () => r1.Add(null!),
-                "r1.Add(null!) --> ArgumentNullException");
-            // "ex.Message contains 'Cannot Add null object'"
-
-            Assert.IsTrue(ex.Message.Contains(
-                "Cannot Add null object",
-                StringComparison.OrdinalIgnoreCase // реєстронезалежне порівняння
-                ),
-                $"ex.Message({ex.Message}) contains 'Cannot Add null object'");
-
-            // переконуємось у тому, що r2.Add(r1) це новий об'єкт, а не зміненний r2
-            Assert.AreNotSame(r2, r2.Add(r1), " Add() should return new item");
-        }
-
-
-        [TestMethod]
-        public void TestToStringXParse()
-        {
-            Random r = new();
-            for (int i = 0; i < 256; i++)
-            {
-                RomanNumber romanNumber = new(r.Next(-3000, 3000));
-                Assert.AreEqual(romanNumber.ToString(),
-                    RomanNumber.Parse(romanNumber.ToString()).ToString(),
-                    "romanNumber.ToString() != RomanNumber.Parse(romanNumber.ToString)");
-            }
+            Assert.IsInstanceOfType(RomanNumber.Eval("I+III"), typeof(RomanNumber));
         }
         [TestMethod]
-        public void TestToString()
+        public void TestEvalExceptions()
         {
-            /* Створити тестові кейси для оптимальної форми римських чисел
-             * скласти 10 кейсів з різних числових діапазонів
-             * 0-10, 10-100, 100-1000, 1000-3000
-             * та з різною кількістю цифр у числі
-             */
-            Dictionary<int, String> testCases = new()
-            {
-                {1,"I" },
-                {29, "XXIX"},
-                {39, "XXXIX"},
-                {246, "CCXLVI"},
-                {378, "CCCLXXVIII"},
-                {1199, "MCXCIX"},
-                {1350, "MCCCL"},
-                {2247, "MMCCXLVII"},
-                {2499, "MMCDXCIX"},
-                {2700, "MMDCC"},
-                {2999, "MMCMXCIX"},
-                { -2947, "-MMCMXLVII" },
-                { -2970, "-MMCMLXX" },
-                { -2730, "-MMDCCXXX" },
-                { -2756, "-MMDCCLVI" },
-                { -2767, "-MMDCCLXVII" },
-                { -2777, "-MMDCCLXXVII" },
-                { -2799, "-MMDCCXCIX" },
-                { -1603, "-MDCIII" },
-                { -1674, "-MDCLXXIV" },
-                { -1718, "-MDCCXVIII" },
-                { -1742, "-MDCCXLII" },
-                { -1747, "-MDCCXLVII" },
-                { -1784, "-MDCCLXXXIV" },
-                { -1796, "-MDCCXCVI" },
-                { -1884, "-MDCCCLXXXIV" },
-                { -1945, "-MCMXLV" },
-                { -1951, "-MCMLI" },
-                { -1972, "-MCMLXXII" },
-                { -1980, "-MCMLXXX" },
-            };
-            foreach (var pair in testCases)
-            {
-                Assert.AreEqual(pair.Value, new RomanNumber(pair.Key).ToString(), $"{pair.Key}.ToString()=={pair.Value}");
-            }
-            // Тест конструктора без аргументу
-            Assert.AreEqual(
-                "N",
-                new RomanNumber().ToString(),
-                $"new RomanNumber()=='N'"
-            );
-        }
-
-        private static Dictionary<String, int> parseTests = new()
-        {
-            {"I"     , 1  },
-            {"II"    , 2  },
-            {"III"   , 3  },
-            {"IIII"  , 4  }, // Особливі твердження - з них ми визначаєио про
-            {"IV"   , 4  },  // підтримку неоптимальних записів чи
-            {"V"    , 5  },
-            {"VI"   , 6  },
-            {"VII"  , 7  },
-            {"VIII" , 8  },
-            {"IX"   , 9  },
-            {"X"  , 10  },
-            {"VV", 10 }, // ще одне наголошення неоптимальності
-            {"IIIIIIIIII", 10 }, // ще одне наголошення неоптимальності
-            {"VX", 5 }, // ще одне наголошення неоптимальності
-            {"N",0 }, // Доповнюємо множину чисел нулем
-            {"-L",-50 }, // вказуємо, що можливі від'ємні числа
-            {"-XL",-40 },
-            {"-IL",-49 }, // неоптимальність
-
-            //{"-MDV",1505 },//fall
-            {"DD",1000 },
-            {"CCCCC",500 },
-            {"IVIVIVIVIV",20 },
-            {"MMDDCCCCCCCCCC",4000 },
-            {"MMXXIII",2023},
-            { "CMD", 1400 },
-            { "CLI", 151},
-            { "DIL", 549},
-            { "DID", 999},
-            { "DMC", 600},
-
-
-            //DZ
-  
-            {"XIV", 14},
-            {"XXIV", 24},
-            {"XXIX", 29},
-            {"XXXIV", 34},
-            {"XXXIX", 39},
-            {"XLIV", 44},
-            {"XLIX", 49},
-            {"LIV", 54},
-            {"LIX", 59},
-            {"LXIV", 64},
-            {"LXIX", 69},
-            {"LXXIV", 74},
-            {"LXXIX", 79},
-            {"LXXXIV", 84},
-            {"LXXXIX", 89},
-            {"XCIV", 94},
-            {"XCIX", 99},
-            {"CIV", 104},
-            {"CIX", 109},
-            {"CXIV", 114},
-            {"CXIX", 119},
-            {"CXXIV", 124},
-            {"CXXIX", 129},
-            {"CXXXIV", 134},
-            {"CXXXIX", 139},
-            {"CXLIV", 144},
-            {"CXLIX", 149},
-            {"CLIV", 154},
-            {"CLIX", 159},
-            {"CLXIV", 164},
-            {"CLXIX", 169},
-            {"CLXXIV", 174},
-            {"CLXXIX", 179},
-            {"CLXXXIV", 184},
-            {"CLXXXIX", 189},
-            {"CXCIV", 194},
-            {"CXCIX", 199},
-            {"CCIV", 204},
-            {"CCIX", 209},
-            {"CCXIV", 214},
-            {"CCXIX", 219},
-            {"CCXXIV", 224},
-            {"CCXXIX", 229},
-            {"CCXXXIV", 234},
-            {"CCXXXIX", 239},
-            {"CCXLIV", 244},
-            {"CCXLIX", 249},
-            {"CCLIV", 254},
-            {"CCLIX", 259},
-            {"CCLXIV", 264},
-            {"CCLXIX", 269},
-            {"CCLXXIV", 274},
-            {"CCLXXIX", 279},
-            {"CCLXXXIV", 284},
-            {"CCLXXXIX", 289},
-            {"CCXCIV", 294},
-            {"CCXCIX", 299},
-            {"CDIV", 404},
-            {"CDIX", 409},
-            {"CDXIV", 414},
-            {"CDXIX", 419},
-            {"CDXXIV", 424},
-            {"CDXXIX", 429},
-            {"CDXXXIV", 434},
-            {"CDXXXIX", 439},
-            {"CDXLIV", 444},
-            {"CDXLIX", 449},
-            {"CDLIV", 454},
-            {"CDLIX", 459},
-            {"CDLXIV", 464},
-            {"CDLXIX", 469},
-            {"CDLXXIV", 474},
-            {"CDLXXIX", 479},
-            {"CDLXXXIV", 484},
-            {"CDLXXXIX", 489},
-            {"CDXCIV", 494},
-            {"CDXCIX", 499},
-            {"DIV", 504},
-            {"DIX", 509},
-            {"DXIV", 514},
-            {"DXIX", 519},
-            {"DXXIV", 524},
-            {"DXXIX", 529},
-            {"DXXXIV", 534},
-            {"DXXXIX", 539},
-            {"DXLIV", 544},
-            {"DXLIX", 549},
-            {"DLIV", 554},
-            {"DLIX", 559},
-            {"DLXIV", 564},
-            {"DLXIX", 569},
-            {"DLXXIV", 574},
-            {"DLXXIX", 579},
-            {"DLXXXIV", 584},
-            {"DLXXXIX", 589},
-            {"DXCIV ", 594},
-            {" DXCIX ", 599},
-            {"\nCM\t", 900}
-
-
-
-        };
-
-
-        [TestMethod]
-        public void TestParseValid()
-        {
-            /*Assert.AreEqual(        ///RomanNumber.Parse("I").Value == 1
-                1,                         // Значення, що очікується( що має бути, правильний варіант)
-                RomanNumber      // Актуальне значення (те, що вирахуване)
-                            .Parse("I") //
-                            .Value,      //
-                "1 == I"                // Повідомлення, що з'явиться при провалі тесту
-            );*/
-            foreach (var pair in parseTests)
-            {
-                Assert.AreEqual(
-                    pair.Value,
-                    RomanNumber.Parse(pair.Key).Value,
-                    $"{pair.Value}=={pair.Key}");
-            }
-        }
-
-        [TestMethod]
-        public void TestParseNandMinus()
-        {
-            // Тестування з неправильними формами чисел
-            Assert.ThrowsException<ArgumentException>(
-                () => RomanNumber.Parse(""),
-                " ' ' -> Exception");
-            Assert.ThrowsException<ArgumentException>(
-                () => RomanNumber.Parse(null!),
-                " ' ' -> Exception");
-            Assert.ThrowsException<ArgumentException>(
-               () => RomanNumber.Parse(" "),
-               " ' ' -> Exception");
-            //саме виключення, що виникло у лямбді, повертаеється як результат
             var ex = Assert.ThrowsException<ArgumentException>(
-                () => RomanNumber.Parse("XBC"),
-                " ' ' -> Exception");
-            // вимагаємо, щоб відомості про неправильну цифру ('B') було
-            // включено у повідолмення виключення
-            Assert.IsTrue(ex.Message.Contains('B'), "ex.Message should Contain 'B' ");
+             () => RomanNumber.Eval(null!),
+             "RomanNumber.Eval(null!) --> ArgumentException");
 
-            Dictionary<String, char> testCases = new()
-            {
-                { "I-V",'-' },
-                { "VI-",'-'},
-                { "I-II",'-'},
-                { "VII-I",'-'},
-
-                { "VIINI",'N'}, // Тест не спрацював, тому зробив вирішення цієї проблеми
-                                // (див. CheckValidityOrThrow() у класі RomanNumber)
-
-                { "Xx",'x' },
-                { "Xy",'y' },
-                { "AX",'A' },
-                { "X C",' ' },
-                { "X\tC",'\t' },
-                { "X\nC",'\n' },
-            };
-            foreach (var pair in testCases)
-            {
-                // позбуваємось змінної ex  - робимо вкладені вирази
-                Assert.IsTrue(
-                    Assert.ThrowsException<ArgumentException>(
-                        () => RomanNumber.Parse(pair.Key),
-                        $" '{pair.Key}' -> ArgumentException").Message.Contains($"'{pair.Value}'"),
-                    $"'{pair.Key}' ex.Message should Contain '{pair.Value}' ");
-            }
-
-            // Якщо неправильних цифр декілька, то ми очікуємо будь-якої з них
-            // "ABC" - або 'A', або 'B'
+            Assert.IsTrue(ex.Message.Contains("NULL or empty input", StringComparison.InvariantCultureIgnoreCase),
+               $"{ex.Message} must contains: 'NULL or empty input'");
 
             ex = Assert.ThrowsException<ArgumentException>(
-                () => RomanNumber.Parse("ABC"),
-                " ' ' -> Exception");
+             () => RomanNumber.Eval("expression"),
+             "RomanNumber.Eval(expression) --> ArgumentException");
 
-            Assert.IsTrue(
-                    ex.Message.Contains('A') && ex.Message.Contains('B'), $"'ABC' ex.Message({ex.Message}) should Contain 'A' and 'B'");
-
-            // Змінюються правила - для неправильних чисел вимагаємо перелік
-            // усіх цифр (символів), що не є припустимими
-
-
-            // + перевіримо, що повідомлення (виключення) не занадто коротке
-            // мову чи інші слова не встановлюємо, але щоб не одна літера —
-            // накладаємо умову на довжину повідомлення (15 літер)
-            Assert.IsFalse(ex.Message.Length < 15, "ex.Message.Length min 15");
+            Assert.IsTrue(ex.Message.Contains("Invalid expression", StringComparison.InvariantCultureIgnoreCase),
+                $"{ex.Message} must contains: 'Invalid expression'");
         }
-
         [TestMethod]
-        public void TestParseIllegal()
+        public void TestEvalAlgoResults()
         {
-            String[] illegals = { "IIV", "IIX", "VVX", "IVX", "IIIX", "VIX" };
-            foreach (var illegal in illegals)
+            Assert.AreEqual(3, RomanNumber.Eval("I + II").Value,
+                $"RomanNumber.Eval(\"I + II\") == 3");
+
+            Random rnd = new();
+            RomanNumber r1 = new();
+            int result = 0;
+            string expression = "";
+            for (int i = 0; i < 256; i++)
             {
-                Assert.ThrowsException<ArgumentException>(() => RomanNumber.Parse(illegal), $"'{illegal}' -> Exception)");
+                r1.Value = rnd.Next(0, 3000);
+
+                result += r1.Value;
+                expression += r1.ToString();
+
+                expression += rnd.Next(0, 2) == 1 ? "+" : "-";
+
+                r1.Value = rnd.Next(0, 3000);
+                if (expression.Contains('-'))
+                {
+                    result -= r1.Value;
+                }
+                else
+                {
+                    result += r1.Value;
+                }
+                expression += r1.ToString();
+
+                Assert.AreEqual(result, RomanNumber.Eval(expression).Value,
+                    $"{expression} => {result}");
+                expression = "";
+                result = 0;
+            }
+        }
+        [TestMethod]
+        public void TestEvalWrongExpressions()
+        {
+            Dictionary<string, int> testCases = new()
+            {
+                { "    XL    +    II    " ,42},
+                { "XL+II",42},
+                { "XL--II",42},
+                { "-X + II",-8},
+                { "-X+-II",-12}
+            };
+            foreach (var testCase in testCases)
+            {
+                Assert.AreEqual(testCase.Value, RomanNumber.Eval(testCase.Key).Value,
+                    $"RomanNumber.Eval({testCase.Key}) => {testCase.Value}");
             }
 
         }

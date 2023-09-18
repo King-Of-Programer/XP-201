@@ -21,7 +21,9 @@ namespace App
         private const string SUM_NULL_MESSAGE = "Invaild Sum() invocation with NULL argument";
         private const String NULL_MESSAGE_PATTERN = "{0}: '{1}'";
         private const string INVALID_DATA_SUM_MESSAGE = "Invaild Sum() invocation with NULL argument: ";
+        private const string INVALID_EXPRESSION_MESSAGE = "Invalid expression";
 
+        #region class
         public RomanNumber(int value = 0)
         {
             this.Value = value;
@@ -236,19 +238,10 @@ namespace App
                 }
             }
         }
-
-
-
-
-
         public RomanNumber Add(RomanNumber romanNumber)
         {
             return new() { Value = 30 };
         }
-
-
-
-
         public static RomanNumber Sum(params RomanNumber[] romNumbers)
         {
             if (romNumbers is null)
@@ -299,5 +292,40 @@ namespace App
             }
             return sum;
         }*/
+
+
+   
+        #endregion
+        public static RomanNumber Eval(string expression)
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                throw new ArgumentException(EMPTY_INPUT_MESSAGE);
+            }
+            expression = expression.Trim();
+            int signIndex = expression.IndexOf('+') == -1 ? expression.IndexOf('-') : expression.IndexOf("+");
+            if (signIndex == -1)
+            {
+                throw new ArgumentException(INVALID_EXPRESSION_MESSAGE);
+            }
+            int result = 0;
+            try
+            {
+                result = RomanNumber.Parse(expression.Substring(0, signIndex)).Value;
+                if (expression[signIndex] == '-')
+                {
+                    result -= RomanNumber.Parse(expression.Substring(signIndex + 1)).Value;
+                }
+                else
+                {
+                    result += RomanNumber.Parse(expression.Substring(signIndex + 1)).Value;
+                }
+            }
+            catch
+            {
+                throw new ArgumentException(INVALID_EXPRESSION_MESSAGE);
+            }
+            return new(result);
+        }
     }
 }
